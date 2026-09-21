@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">Top-20 ranking comparison</title>
+  <desc id="desc">Bar charts comparing item-mean baseline and biased matrix factorisation on AP at 20 and NDCG at 20 for the fixed ten-user holdout.</desc>
+  <rect width="960" height="440" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Top-20 ranking on the fixed 10-user holdout</text>
+  <g font-family="Arial, sans-serif">
+    <text x="245" y="72" text-anchor="middle" font-size="18" font-weight="700" fill="#334155">AP@20</text>
+    <line x1="70" y1="350" x2="420" y2="350" stroke="#64748b"/>
+    <line x1="70" y1="95" x2="70" y2="350" stroke="#64748b"/>
+    <line x1="70" y1="265" x2="420" y2="265" stroke="#e2e8f0"/>
+    <line x1="70" y1="180" x2="420" y2="180" stroke="#e2e8f0"/>
+    <line x1="70" y1="95" x2="420" y2="95" stroke="#e2e8f0"/>
+    <rect x="125" y="342" width="90" height="8" fill="#94a3b8"/>
+    <rect x="275" y="105" width="90" height="245" fill="#2563eb"/>
+    <text x="170" y="334" text-anchor="middle" font-size="14" fill="#334155">0.0007</text>
+    <text x="320" y="97" text-anchor="middle" font-size="14" fill="#334155">0.0216</text>
+    <text x="170" y="376" text-anchor="middle" font-size="13" fill="#334155">Item mean</text>
+    <text x="320" y="376" text-anchor="middle" font-size="13" fill="#334155">Biased MF</text>
+
+    <text x="715" y="72" text-anchor="middle" font-size="18" font-weight="700" fill="#334155">NDCG@20</text>
+    <line x1="540" y1="350" x2="890" y2="350" stroke="#64748b"/>
+    <line x1="540" y1="95" x2="540" y2="350" stroke="#64748b"/>
+    <line x1="540" y1="265" x2="890" y2="265" stroke="#e2e8f0"/>
+    <line x1="540" y1="180" x2="890" y2="180" stroke="#e2e8f0"/>
+    <line x1="540" y1="95" x2="890" y2="95" stroke="#e2e8f0"/>
+    <rect x="595" y="333" width="90" height="17" fill="#94a3b8"/>
+    <rect x="745" y="103" width="90" height="247" fill="#2563eb"/>
+    <text x="640" y="325" text-anchor="middle" font-size="14" fill="#334155">0.0055</text>
+    <text x="790" y="95" text-anchor="middle" font-size="14" fill="#334155">0.0774</text>
+    <text x="640" y="376" text-anchor="middle" font-size="13" fill="#334155">Item mean</text>
+    <text x="790" y="376" text-anchor="middle" font-size="13" fill="#334155">Biased MF</text>
+    <text x="480" y="420" text-anchor="middle" font-size="13" fill="#64748b">Saved notebook outputs; ten users, ten positive holdouts per user</text>
+  </g>
+</svg>
+

@@ -1,0 +1,9 @@
+experiment,method,configuration,metric,value,evaluation_scope
+ranking,item_mean_baseline,top_20,AP@20,0.0006666666666666666,10 users x 10 held-out items
+ranking,item_mean_baseline,top_20,NDCG@20,0.005502294157452005,10 users x 10 held-out items
+ranking,biased_matrix_factorisation,32 factors; 20 epochs; lr=0.01; reg=0.05,AP@20,0.021603301926831343,10 users x 10 held-out items
+ranking,biased_matrix_factorisation,32 factors; 20 epochs; lr=0.01; reg=0.05,NDCG@20,0.07740808864771515,10 users x 10 held-out items
+rating_prediction,user_knn,Pearson; k=10,RMSE,0.638941,one user; in-sample diagnostic
+rating_prediction,item_rating_similarity,alpha=1.0; k=10,RMSE,0.924768,one target movie; in-sample diagnostic
+rating_prediction,genre_aware_hybrid,alpha=0.75; k=10,RMSE,0.971694,one target movie; in-sample diagnostic
+
