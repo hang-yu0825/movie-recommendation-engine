@@ -38,7 +38,9 @@ The model predicted:
 
 `global mean + user bias + item bias + dot(user factors, item factors)`
 
-It used 32 latent dimensions, 20 epochs, learning rate 0.01, L2 regularisation 0.05, small random factor initialisation, and shuffled per-rating SGD. No specialised recommender-system or machine-learning library was used.
+It used 32 latent dimensions, 20 epochs, learning rate 0.01, L2 regularisation 0.05, factor initialisation from `0.01 × N(0, 1)`, zero-initialised biases, and shuffled per-rating SGD. The same seed-42 NumPy generator that sampled the users also initialised the factors and shuffled each epoch; the holdout sample used pandas `random_state=42`. No specialised recommender-system or machine-learning library was used.
 
-For each evaluation user, all movies unseen in training were scored, and the top 20 formed the ranked recommendation list. The item-mean baseline ranked the same candidate pool by each item's training-set mean.
+Training RMSE fell from 0.9510 to 0.8324 and was still decreasing at epoch 20, so the model was not trained to convergence.
+
+For each evaluation user, all movies unseen in training were scored, and the top 20 formed the ranked recommendation list. The item-mean baseline ranked the same candidate pool by each item's training-set mean (items absent from training fall back to the global mean).
 

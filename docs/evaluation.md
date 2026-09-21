@@ -26,9 +26,35 @@ AP@20 divides accumulated precision at hit positions by `min(number_of_relevant_
 
 The NDCG ratio is `0.0774080886 / 0.0055022942 = 14.0683`. This comparison is valid only for this fixed split and candidate construction.
 
+### Hits behind the averages
+
+The per-user values in `results/ranking_by_user.csv` can be decoded into hit positions (with ten relevant items, each hit at rank k adds `1 / log2(k + 1)` to DCG):
+
+| User | Baseline hit ranks | MF hit ranks |
+| ---: | --- | --- |
+| 624 | – | 4, 14 |
+| 1246 | 15 | 12 |
+| 2776 | – | 3, 9 |
+| 4269 | – | 15 |
+| 4711 | – | 5, 7, 12, 17 |
+| 5225 | – | 11 |
+| 569, 590, 2745, 4004 | – | – |
+
+A separate re-run of the ranking experiment from the raw MovieLens files (same seeds and call order, run outside this repository) reproduced the ten sampled users, the 1,000,109-row training set, all 20 printed training RMSE values, and both AP@20/NDCG@20 pairs to at least 13 decimal places.
+
+In total the baseline recovered 1 of the 100 held-out items and MF recovered 11. Four users had no hits under either method. The ratio above is therefore driven by very small counts.
+
 ## Rating-prediction diagnostics
 
 The original notebook also reports RMSE for two neighbourhood experiments. These ratings were not held out before similarities were constructed, so the results are in-sample diagnostics and not unbiased generalisation estimates.
+
+Where the leakage enters:
+
+- **User-based kNN.** Every movie the test user rated is scored, but the user-user similarities were computed over all of that user's ratings, including the one being predicted. The Pearson prediction also adds back the user's mean, which includes the target rating.
+- **Item-based and hybrid.** Rating similarity between the target movie and every other movie was computed from centred vectors that contain all 980 target ratings, i.e. the values later predicted. User means used for centring and in the prediction also include the target rating.
+- **Selection.** The best similarity, k and alpha were picked by comparing RMSE on these same ratings.
+
+The size and direction of the bias were not measured, and it may differ between similarity measures. These RMSEs are not estimates of prediction error on unseen ratings, and the comparisons between configurations are indicative only.
 
 ### User-based kNN
 

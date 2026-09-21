@@ -10,6 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 FIGURES = RESULTS / "figures"
 
+# Keep SVG output byte-stable between runs so regenerated files do not produce noisy diffs.
+plt.rcParams["svg.hashsalt"] = "movie-recommendation-engine"
+SAVE_KWARGS = {"bbox_inches": "tight", "metadata": {"Date": None}}
+
 
 def model_comparison() -> None:
     metrics = pd.read_csv(RESULTS / "metrics.csv")
@@ -25,11 +29,12 @@ def model_comparison() -> None:
         bars = axis.bar(labels, values, color=colors)
         axis.set_title(metric)
         axis.set_ylabel(metric)
+        axis.set_ylim(0, values.max() * 1.18)
         axis.grid(axis="y", alpha=0.25)
         axis.bar_label(bars, labels=[f"{value:.4f}" for value in values], padding=3)
-    fig.suptitle("Top-20 ranking on the fixed 10-user holdout")
+    fig.suptitle("Top-20 ranking on one fixed split (10 users, 10 held-out items each)")
     fig.tight_layout()
-    fig.savefig(FIGURES / "model-comparison.png", dpi=180, bbox_inches="tight")
+    fig.savefig(FIGURES / "model-comparison.svg", **SAVE_KWARGS)
     plt.close(fig)
 
 
@@ -37,12 +42,13 @@ def training_curve() -> None:
     training = pd.read_csv(RESULTS / "training_rmse.csv")
     fig, axis = plt.subplots(figsize=(7, 4))
     axis.plot(training["epoch"], training["training_rmse"], color="#2563eb", marker="o", markersize=3)
-    axis.set_title("Biased matrix factorisation training convergence")
+    axis.set_title("Biased matrix factorisation: training RMSE per epoch")
     axis.set_xlabel("Epoch")
-    axis.set_ylabel("Training RMSE")
+    axis.set_ylabel("Training RMSE (in-sample)")
+    axis.set_xticks([1, 5, 10, 15, 20])
     axis.grid(alpha=0.25)
     fig.tight_layout()
-    fig.savefig(FIGURES / "training-rmse.png", dpi=180, bbox_inches="tight")
+    fig.savefig(FIGURES / "training-rmse.svg", **SAVE_KWARGS)
     plt.close(fig)
 
 
@@ -50,4 +56,3 @@ if __name__ == "__main__":
     FIGURES.mkdir(parents=True, exist_ok=True)
     model_comparison()
     training_curve()
-

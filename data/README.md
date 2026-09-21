@@ -27,3 +27,11 @@ data/
 
 The entire `data/ml-1m/` directory and dataset archives are ignored by Git.
 
+## Citation
+
+The dataset terms ask users to acknowledge its use:
+
+F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. *ACM Transactions on Interactive Intelligent Systems* 5, 4, Article 19. https://doi.org/10.1145/2827872
+
+This project is not endorsed by the University of Minnesota or GroupLens Research.
+

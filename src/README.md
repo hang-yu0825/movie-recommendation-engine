@@ -10,7 +10,7 @@ The original project contains student-written implementations of:
 - item-mean ranking baseline; and
 - AP@20 and NDCG@20.
 
-These are the strongest technical components, but they are embedded in a coursework submission. No implementation is copied into this publication candidate until the course's public-sharing policy and ownership of any starter scaffolding are confirmed.
+This code was written as part of a university assessment, so it is not included here until the course's public-sharing policy and the ownership of any provided scaffolding are confirmed.
 
 Once approved, the recommended extraction is a small set of modules for data loading, neighbourhood models, matrix factorisation, and ranking evaluation, accompanied by tests that reproduce the saved metrics without copying assessment questions.
 

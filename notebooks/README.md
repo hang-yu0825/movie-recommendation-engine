@@ -1,6 +1,5 @@
-# Notebook Publication Status
+# Notebooks
 
-The original notebook is an identifiable Assignment 3 submission and includes assignment headings, starter prompts, a student identifier, an absolute personal path, large outputs, and complete assessment solutions.
+The original analysis notebook was written for a university assessment and is not included in this repository.
 
-It is intentionally not copied here. Before adding a cleaned notebook, obtain written confirmation that publishing past assessment solutions is permitted. If approval is granted, remove assignment wording, grading prompts, personal identifiers, absolute paths, checkpoint content, and excessive dataframe output while retaining the data-to-evaluation narrative.
-
+It may be added later as a cleaned notebook if publishing past assessment work is confirmed to be permitted. Any published version will omit assessment wording, personal identifiers, local file paths, and bulky dataframe output.

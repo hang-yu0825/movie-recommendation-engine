@@ -53,9 +53,9 @@ User and item factors, together with both bias terms, were trained from scratch 
 The Top-20 result is based on a small, fixed evaluation split:
 
 - ten users were sampled without replacement from users with more than 100 ratings;
-- ten records per sampled user were held out, preferentially from ratings of at least four stars;
+- ten ratings of at least four stars per sampled user were held out at random (a lower-rating fallback existed in the code but was not triggered for these users);
 - the remaining 1,000,109 ratings formed the training set;
-- all movies not seen in training were candidates, including the held-out items;
+- candidates were all 3,706 rated movies except those in the user's training history, so the held-out items stayed in the pool;
 - relevance was binary membership in the ten held-out items;
 - results were averaged over the ten sampled users using AP@20 and NDCG@20.
 
@@ -70,7 +70,9 @@ This is an offline demonstration, not a general estimate of production performan
 | Item-mean baseline | 0.0007 | 0.0055 |
 | Biased matrix factorisation | 0.0216 | 0.0774 |
 
-The matrix-factorisation model achieved NDCG@20 of 0.0774 on this specific evaluation split, compared with 0.0055 for the item-mean baseline. The unrounded ratio is approximately 14.07× the baseline NDCG@20 on this split; it is not a claim of 14× overall recommender quality.
+Biased matrix factorisation achieved NDCG@20 of 0.0774 on this specific evaluation split, compared with 0.0055 for the item-mean baseline — approximately 14.07× the baseline NDCG@20 on this split.
+
+The absolute numbers are small, so the ratio should be read with the hit counts: across the 100 held-out items, the baseline's Top-20 lists contained 1 of them and the MF lists contained 11. Four of the ten users had no hits under either method. Because the baseline figure rests on a single hit, the ratio is fragile and is not a claim of 14× overall recommender quality.
 
 ### Exploratory rating-prediction experiments
 
@@ -80,9 +82,11 @@ The matrix-factorisation model achieved NDCG@20 of 0.0774 on this specific evalu
 | Item-only similarity | Rating similarity, k=10 | 0.9248 | One target movie; 980 raters |
 | Genre-aware hybrid | alpha=0.75, k=10 | 0.9717 | Same target movie and raters |
 
-These RMSE values are descriptive diagnostics only because the experiments do not use a clean holdout.
+These RMSE values are exploratory, in-sample diagnostics: the scored ratings were also used to build the similarities, and the best configuration was picked on the same ratings. They are not estimates of generalisation performance.
 
 ![Top-20 model comparison](results/figures/model-comparison.svg)
+
+Training RMSE of the MF model, as printed during the recorded run. This is in-sample error on the training ratings, not a test metric; it was still falling at epoch 20.
 
 ![Matrix-factorisation training RMSE](results/figures/training-rmse.svg)
 
@@ -90,8 +94,8 @@ These RMSE values are descriptive diagnostics only because the experiments do no
 
 - Biased matrix factorisation ranked held-out items above the item-mean baseline on the selected ten-user split.
 - In the target-movie experiment, adding genre similarity did not beat rating-only similarity; the best true hybrid setting recorded RMSE 0.9717 versus 0.9248 for rating-only similarity.
-- Pearson similarity gave the lowest recorded user-kNN RMSE, but that diagnostic is in-sample and should not be treated as generalisation performance.
-- Evaluation design materially changes what can be concluded from recommender metrics.
+- Pearson similarity gave the lowest recorded user-kNN RMSE at every k tested, but that diagnostic is in-sample and should not be treated as generalisation performance.
+- The item-mean baseline has no minimum-support threshold, so the top of its ranking is dominated by movies with one to three ratings, all five stars. This makes it a weak baseline.
 
 ## Technical Highlights
 
@@ -100,10 +104,6 @@ These RMSE values are descriptive diagnostics only because the experiments do no
 - Biased latent-factor matrix factorisation and per-rating SGD implemented from first principles.
 - Top-k candidate filtering, item-mean baseline, AP@20, and NDCG@20 implemented directly.
 - Reproducible sampling and training order through recorded random seeds.
-
-## Example Recommendation
-
-The saved run includes qualitative Top-20 lists for three sampled users. They are not reproduced here because the original notebook is withheld pending coursework-publication approval. Recommendation examples are qualitative demonstrations and are not evaluation evidence.
 
 ## Repository Structure
 
@@ -137,11 +137,17 @@ The full model experiments are not yet independently runnable from this public-s
 ## Limitations
 
 - The ranking comparison covers only ten sampled users and one fixed holdout.
+- There was no separate validation split. An earlier MF configuration (64 factors, 8 epochs) was also scored on the same holdout and reached NDCG@20 of about 0.0335, so the reported configuration was not chosen independently of the test users.
 - Held-out relevance is defined as membership in selected rating records, not from online behaviour or explicit recommendation feedback.
 - The two neighbourhood RMSE experiments contain evaluation leakage and are exploratory only.
 - Results are offline MovieLens experiments; there is no deployment or A/B test.
 
 See [docs/limitations.md](docs/limitations.md) for the complete discussion.
+
+## References
+
+- Y. Koren, R. Bell and C. Volinsky. 2009. Matrix Factorization Techniques for Recommender Systems. *Computer* 42, 8, 30–37. https://doi.org/10.1109/MC.2009.263
+- F. M. Harper and J. A. Konstan. 2015. The MovieLens Datasets: History and Context. *ACM TiiS* 5, 4, Article 19. https://doi.org/10.1145/2827872
 
 ## Publication and Licence Status
 
